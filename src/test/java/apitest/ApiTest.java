@@ -39,6 +39,28 @@ public class ApiTest {
 	}
 	
 	@Test
+	public void deveRemoverTarefaComSucesso() {
+		//inserir
+		Integer id=given()
+			.body("{\"task\": \"teste para remoção\",\"dueDate\": \"2020-12-20\"}")
+			.contentType(ContentType.JSON)
+		.when()
+			.post("/todo")
+		.then()
+			.statusCode(201)
+			.extract().path("id")
+		;
+		
+		//remover
+		given()
+		.when()
+			.delete("/todo/"+id)
+		.then()
+			.statusCode(204)
+		;
+	}
+	
+	@Test
 	public void naoDeveAdicionarTarefaInvalida() {
 		given()
 			.body("{\"task\": \"teste via API\",\"dueDate\": \"2010-12-12\"}")
